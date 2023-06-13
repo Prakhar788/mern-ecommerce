@@ -18,10 +18,28 @@
 
         const queryCopy={...this.queryStr}//making copy //in javascript object is passed through refrence so if we do like queryCopy=this.queryStr then query will have ref. so if we change anything that will also get changed in queryStr.
         //Removing Some fields or category
-
+         
         const removeFields=["keyword","page","limit"];
+        
         removeFields.forEach((key)=>delete queryCopy[key]);
+        
+       
+    // Filter For Price and Rating
+     
+    let queryStr = JSON.stringify(queryCopy);
+    queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (key) => `$${key}`);
+
+    this.query = this.query.find(JSON.parse(queryStr));
+       
+    return this;
+        
     }
+    pagination(resultPerPage){
+        const currentPage=Number(this.queryStr.page)||1;
+        const skip=resultPerPage * (currentPage-1);
+        this.query=this.query.limit(resultPerPage).skip(skip);
+        return this; 
+    }   
  }
 
  module.exports=ApiFeatures
