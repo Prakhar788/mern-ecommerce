@@ -52,4 +52,17 @@ userSchema.pre("save", async function (next) {
   
     this.password = await bcrypt.hash(this.password, 10);
   });
+
+
+//JWT TOKEN
+userSchema.methods.getJWTToken=function(){
+  return jwt.sign({id:this._id},process.env.JWT_SECRET,{
+    expiresIn:process.env.JWT_EXPIRE,
+  });
+};
+
+//Compare Password
+userSchema.methods.comparePassword=async function(enteredpassword){
+  return await bcrypt.compare(enteredpassword,this.password);
+}
 module.exports = mongoose.model("User", userSchema);

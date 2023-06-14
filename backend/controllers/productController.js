@@ -8,6 +8,7 @@ const ApiFeatures = require("../utils/apiFeatures");
 exports.createProduct=catchAsyncErrors(async(req,res,next)=>{
     //const product=await new Product(req.body);
     //In this you have to .save() to store it into mongodb.
+    req.body.user=req.user.id;
     const product=await Product.create(req.body);
     res.status(201).json({
         success:true,
