@@ -53,3 +53,6 @@ exports.loginUser = catchAsyncErrors(async (req, res, next) => {
         message: "Logged Out",
       });
   })
+
+  //Forgot Password
+  
